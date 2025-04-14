@@ -8,6 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Transit Ticket</title>
   <style>
+  .statusbar-spacer {
+  height: 40px; /* enough space for translucent status bar */
+  background-color: #367CA8; /* different color up top */
+}
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -52,6 +56,7 @@
   </style>
 </head>
 <body>
+  <div class="statusbar-spacer"></div>
   <!-- A.jpg -->
   <img src="A.jpg" alt="Header" />
 
