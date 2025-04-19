@@ -8,7 +8,7 @@
   <title>Transit Ticket</title>
   <style>
   .statusbar-spacer {
-  height: 80px; /* enough space for translucent status bar */
+  height: 40px; /* enough space for translucent status bar */
   background-color: #4A7AA6; /* different color up top */
 }
     body {
@@ -26,7 +26,7 @@
 
     table {
       margin: 14px auto;
-      font-size: 1rem;
+      font-size: 1.2rem;
       width:95%;
     }
 
@@ -74,56 +74,66 @@
   <!-- D.jpg -->
   <img src="D.jpg" alt="Footer" />
 
-  <script>
-    function pad(n) {
-      return n.toString().padStart(2, '0');
-    }
+<script>
+  function pad(n) {
+    return n.toString().padStart(2, '0');
+  }
 
-    function formatDateTime(date) {
-      const mm = pad(date.getMonth() + 1);
-      const dd = pad(date.getDate());
-      const yyyy = date.getFullYear();
-      const hh = date.getHours() % 12 || 12;
-      const mi = pad(date.getMinutes());
-      const ss = pad(date.getSeconds());
-      const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+  function formatDateTime(date) {
+    const mm = pad(date.getMonth() + 1);
+    const dd = pad(date.getDate());
+    const yyyy = date.getFullYear();
+    const hh = date.getHours() % 12 || 12;
+    const mi = pad(date.getMinutes());
+    const ss = pad(date.getSeconds());
+    const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
 
-      return {
-        date: `${mm}/${dd}/${yyyy}`,
-        time: `${pad(hh)}:${mi} ${ampm}`
-      };
-    }
+    return {
+      date: `${mm}/${dd}/${yyyy}`,
+      time: `${pad(hh)}:${mi} ${ampm}`
+    };
+  }
 
-    function updateTimes() {
+  function updateTimes() {
+    const now = new Date();
+    const expiry = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+
+    const nowFormatted = formatDateTime(now);
+    const expiryFormatted = formatDateTime(expiry);
+
+    document.getElementById("current-date").innerText = nowFormatted.date;
+    document.getElementById("current-time").innerText = nowFormatted.time;
+    document.getElementById("expiry-date").innerText = expiryFormatted.date;
+    document.getElementById("expiry-time").innerText = expiryFormatted.time;
+
+    function updateCountdown() {
       const now = new Date();
-      const expiry = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+      let diff = expiry - now;
 
-      const nowFormatted = formatDateTime(now);
-      const expiryFormatted = formatDateTime(expiry);
+      if (diff < 0) diff = 0;
 
-      document.getElementById("current-date").innerText = nowFormatted.date;
-      document.getElementById("current-time").innerText = nowFormatted.time;
-      document.getElementById("expiry-date").innerText = expiryFormatted.date;
-      document.getElementById("expiry-time").innerText = expiryFormatted.time;
+      const hrs = pad(Math.floor(diff / (1000 * 60 * 60)));
+      const mins = pad(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
+      const secs = pad(Math.floor((diff % (1000 * 60)) / 1000));
 
-      function updateCountdown() {
-        const now = new Date();
-        let diff = expiry - now;
-
-        if (diff < 0) diff = 0;
-
-        const hrs = pad(Math.floor(diff / (1000 * 60 * 60)));
-        const mins = pad(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)));
-        const secs = pad(Math.floor((diff % (1000 * 60)) / 1000));
-
-        document.getElementById("countdown").innerText = `${hrs}:${mins}:${secs}`;
-      }
-
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
+      document.getElementById("countdown").innerText = `${hrs}:${mins}:${secs}`;
     }
 
-    updateTimes();
-  </script>
+    // Update countdown once when the page loads
+    updateCountdown();
+
+    // Update the current time every second
+    setInterval(() => {
+      const now = new Date();
+      const nowFormatted = formatDateTime(now);
+      document.getElementById("current-time").innerText = nowFormatted.time;
+    }, 1000);
+
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+  }
+
+  updateTimes();
+</script>
 </body>
 </html>
