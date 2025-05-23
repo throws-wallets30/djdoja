@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Transit Ticket</title>
+  <title>Fun Metro</title>
   <style>
   .statusbar-spacer {
-  height: 80px; /* enough space for translucent status bar */
-  background-color: #4A7AA6; /* different color up top */
+  height: 80px;
+  background-color: #4A7AA6;
 }
     body {
       margin: 0;
@@ -56,10 +56,8 @@
 </head>
 <body>
   <div class="statusbar-spacer"></div>
-  <!-- A.jpg -->
+  
   <img src="A.jpg" alt="Header" />
-
-  <!-- B.GIF -->
   <img src="B.GIF" alt="Ticket Icon" />
   <table>
     <tr><td>Price</td><td>$1.50</td></tr>
@@ -70,8 +68,6 @@
   </table>
 
   <div class="countdown" id="countdown">Loading...</div>
-
-  <!-- D.jpg -->
   <img src="D.jpg" alt="Footer" />
 
 <script>
@@ -119,17 +115,14 @@
       document.getElementById("countdown").innerText = `${hrs}:${mins}:${secs}`;
     }
 
-    // Update countdown once when the page loads
     updateCountdown();
 
-    // Update the current time every second
     setInterval(() => {
       const now = new Date();
       const nowFormatted = formatDateTime(now);
       document.getElementById("current-time").innerText = nowFormatted.time;
     }, 1000);
 
-    // Update countdown every second
     setInterval(updateCountdown, 1000);
   }
 
